@@ -1,0 +1,1 @@
+{\n  "name": "website",\n  "version": "1.0.0",\n  "dependencies": {\n    "next": "latest",\n    "react": "latest",\n    "react-dom": "latest",\n    "tailwindcss": "latest",\n    "autoprefixer": "latest",\n    "postcss": "latest",\n    "framer-motion": "latest",\n    "react-icons": "latest"\n  }\n}
