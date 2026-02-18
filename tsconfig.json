@@ -1,0 +1,1 @@
+{\n  "compilerOptions": {\n    "target": "es2020",\n    "lib": ["dom", "dom.iterable"],\n    "module": "esnext",\n    "moduleResolution": "bundler",\n    "baseUrl": ".",\n    "paths": {\n      "@/*": ["./src/*"]\n    },\n    "jsx": "preserve",\n    "strict": true\n  }\n}
