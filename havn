@@ -1,0 +1,438 @@
+import React, { useState, useEffect } from 'react';
+import { Menu, X, ArrowRight, MapPin, Home, Layers, Mail, Instagram, Linkedin } from 'lucide-react';
+
+
+/* FONTS LOADING
+ In a real environment, you would import these via a CSS file or HTML head.
+ For this standalone file, we will inject the style tag dynamically.
+*/
+
+
+const App = () => {
+ const [isMenuOpen, setIsMenuOpen] = useState(false);
+ const [scrolled, setScrolled] = useState(false);
+
+
+ // Handle Scroll for Navbar styling
+ useEffect(() => {
+   const handleScroll = () => {
+     setScrolled(window.scrollY > 50);
+   };
+   window.addEventListener('scroll', handleScroll);
+   return () => window.removeEventListener('scroll', handleScroll);
+ }, []);
+
+
+ // Colors based on brand guidelines
+ const colors = {
+   primaryGreen: '#1F4D3A',
+   black: '#000000',
+   gold: '#D4B473',
+   ivory: '#F7F7F2',
+   charcoal: '#1F1F1F',
+   warmGray: '#8A8A8A',
+ };
+
+
+ const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+
+ return (
+   <div className="min-h-screen w-full relative" style={{ backgroundColor: colors.ivory, color: colors.charcoal, fontFamily: "'Inter', sans-serif" }}>
+     {/* Font Injection */}
+     <style>{`
+       @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap');
+      
+       .font-heading { fontFamily: 'Cormorant Garamond', serif; }
+       .font-body { fontFamily: 'Inter', sans-serif; }
+       .font-stats { fontFamily: 'Bebas Neue', sans-serif; }
+      
+       .text-gold { color: #D4B473; }
+       .bg-green { background-color: #1F4D3A; }
+       .bg-ivory { background-color: #F7F7F2; }
+      
+       /* Smooth Scrolling */
+       html { scroll-behavior: smooth; }
+     `}</style>
+
+
+     {/* Navigation */}
+     <nav
+       className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'py-4 shadow-md' : 'py-6'}`}
+       style={{ backgroundColor: scrolled ? colors.primaryGreen : 'transparent' }}
+     >
+       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+         {/* Logo */}
+         <div className="flex flex-col">
+           <span className={`font-stats text-3xl tracking-widest ${scrolled ? 'text-white' : 'text-white'}`}>
+             HAVN LIVING
+           </span>
+         </div>
+
+
+         {/* Desktop Links */}
+         <div className="hidden md:flex space-x-8 items-center">
+           {['The Standard', 'Projects', 'Neighborhoods', 'About', 'Contact'].map((item) => (
+             <a
+               key={item}
+               href={`#${item.toLowerCase().replace(' ', '-')}`}
+               className="font-body text-sm tracking-wide uppercase text-white hover:text-[#D4B473] transition-colors"
+             >
+               {item}
+             </a>
+           ))}
+           <button className="border border-[#D4B473] text-[#D4B473] px-6 py-2 text-sm uppercase tracking-wider hover:bg-[#D4B473] hover:text-black transition-all">
+             Consult
+           </button>
+         </div>
+
+
+         {/* Mobile Menu Toggle */}
+         <div className="md:hidden text-white cursor-pointer" onClick={toggleMenu}>
+           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+         </div>
+       </div>
+
+
+       {/* Mobile Menu Dropdown */}
+       {isMenuOpen && (
+         <div className="absolute top-full left-0 w-full bg-[#1F4D3A] p-6 flex flex-col space-y-6 md:hidden shadow-xl border-t border-[#D4B473]">
+           {['The Standard', 'Projects', 'Neighborhoods', 'About', 'Contact'].map((item) => (
+             <a
+               key={item}
+               href={`#${item.toLowerCase().replace(' ', '-')}`}
+               className="font-heading text-2xl text-white hover:text-[#D4B473]"
+               onClick={() => setIsMenuOpen(false)}
+             >
+               {item}
+             </a>
+           ))}
+         </div>
+       )}
+     </nav>
+
+
+     {/* 1. HERO SECTION */}
+     <header className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+       {/* Background Image with Overlay */}
+       <div className="absolute inset-0 z-0">
+         <img
+           src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop"
+           alt="HAVN Architecture"
+           className="w-full h-full object-cover"
+         />
+         <div className="absolute inset-0 bg-[#1F4D3A] opacity-70 mix-blend-multiply"></div>
+       </div>
+
+
+       {/* Content */}
+       <div className="relative z-10 text-center max-w-4xl px-6">
+         <p className="font-stats text-[#D4B473] text-xl md:text-2xl tracking-[0.2em] mb-4">
+           Affordable Luxury. Built with Intention.
+         </p>
+         <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-8">
+           The HAVN Standard
+         </h1>
+         <p className="font-body text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+           We design homes that honor the long view. Institutional quality, developer-grade materials, and design-led philosophy.
+         </p>
+         <div className="flex flex-col md:flex-row gap-4 justify-center">
+           <a href="#projects" className="bg-[#D4B473] text-[#1F4D3A] px-8 py-3 uppercase tracking-widest font-bold hover:bg-white transition-colors">
+             View Projects
+           </a>
+           <a href="#the-standard" className="border border-white text-white px-8 py-3 uppercase tracking-widest hover:bg-white hover:text-[#1F4D3A] transition-colors">
+             Our Philosophy
+           </a>
+         </div>
+       </div>
+     </header>
+
+
+     {/* 2. THE HAVN STANDARD (Signature Page) */}
+     <section id="the-standard" className="py-24 px-6 md:px-12 bg-[#1F1F1F]">
+       <div className="max-w-7xl mx-auto">
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+           {/* Left: Philosophy Text */}
+           <div>
+             <div className="w-16 h-0.5 bg-[#D4B473] mb-6"></div>
+             <h2 className="font-heading text-4xl md:text-5xl text-white mb-8">
+               Not just built. <br/> <span className="text-[#D4B473] italic">Curated.</span>
+             </h2>
+             <p className="font-body text-[#8A8A8A] text-lg leading-relaxed mb-8">
+               The HAVN Standard separates us from typical development. We don't chase trends; we build for longevity. Our homes prioritize materials over decoration, ensuring that your investment matures gracefully over time.
+             </p>
+            
+             <ul className="space-y-6">
+               {[
+                 { title: "Design-Led Floorplans", desc: "Flow and function optimized for modern living." },
+                 { title: "Material Integrity", desc: "Authentic stone, wood, and metals. No cheap imitations." },
+                 { title: "Community Integration", desc: "Homes that respect and enhance their streetscape." }
+               ].map((item, idx) => (
+                 <li key={idx} className="flex items-start group">
+                   <span className="font-stats text-[#D4B473] text-3xl mr-4 opacity-60 group-hover:opacity-100">0{idx + 1}</span>
+                   <div>
+                     <h3 className="font-heading text-xl text-white">{item.title}</h3>
+                     <p className="font-body text-[#8A8A8A] text-sm">{item.desc}</p>
+                   </div>
+                 </li>
+               ))}
+             </ul>
+           </div>
+
+
+           {/* Right: Visual */}
+           <div className="relative h-[600px] w-full">
+              <img
+               src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053&auto=format&fit=crop"
+               alt="Interior Detail"
+               className="w-full h-full object-cover filter brightness-75 grayscale-[20%]"
+             />
+             <div className="absolute -bottom-6 -left-6 bg-[#1F4D3A] p-8 hidden md:block border border-[#D4B473] border-opacity-30">
+                <p className="font-stats text-white text-4xl mb-1">20+</p>
+                <p className="font-body text-[#D4B473] text-xs uppercase tracking-widest">Years Combined Experience</p>
+             </div>
+           </div>
+
+
+         </div>
+       </div>
+     </section>
+
+
+     {/* 3. PROJECTS / PORTFOLIO */}
+     <section id="projects" className="py-24 px-6 md:px-12 bg-[#F7F7F2]">
+       <div className="max-w-7xl mx-auto">
+         <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+           <div>
+             <h2 className="font-heading text-4xl md:text-6xl text-[#1F4D3A] mb-4">Current Projects</h2>
+             <p className="font-body text-[#8A8A8A] max-w-md">Exploring the intersection of affordability and high design across our key markets.</p>
+           </div>
+           <a href="#" className="hidden md:flex items-center text-[#1F4D3A] font-bold uppercase tracking-widest hover:text-[#D4B473] transition-colors mt-6 md:mt-0">
+             View Full Portfolio <ArrowRight className="ml-2 w-4 h-4" />
+           </a>
+         </div>
+
+
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+           {[
+             {
+               name: "The Rowan House",
+               loc: "Memphis, TN",
+               status: "Completed",
+               img: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=2070&auto=format&fit=crop"
+             },
+             {
+               name: "Highland Lofts",
+               loc: "Atlanta, GA",
+               status: "In Development",
+               img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1974&auto=format&fit=crop"
+             },
+             {
+               name: "Cooper Street Revival",
+               loc: "Memphis, TN",
+               status: "Presale",
+               img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop"
+             }
+           ].map((project, idx) => (
+             <div key={idx} className="group cursor-pointer">
+               <div className="relative overflow-hidden aspect-[4/5] mb-4">
+                 <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity z-10 duration-500"></div>
+                 <img
+                   src={project.img}
+                   alt={project.name}
+                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                 />
+                 <div className="absolute top-4 left-4 bg-white px-3 py-1 z-20">
+                   <span className="font-stats text-[#1F4D3A] tracking-wider text-sm">{project.status}</span>
+                 </div>
+               </div>
+               <h3 className="font-heading text-2xl text-[#1F4D3A]">{project.name}</h3>
+               <p className="font-body text-[#8A8A8A] text-sm uppercase tracking-wide mt-1 flex items-center">
+                 <MapPin className="w-3 h-3 mr-1" /> {project.loc}
+               </p>
+             </div>
+           ))}
+         </div>
+
+
+         <div className="mt-12 text-center md:hidden">
+           <a href="#" className="inline-block border-b border-[#1F4D3A] text-[#1F4D3A] pb-1 uppercase tracking-widest font-bold">
+             View Full Portfolio
+           </a>
+         </div>
+       </div>
+     </section>
+
+
+     {/* 4. NEIGHBORHOODS */}
+     <section id="neighborhoods" className="py-24 px-6 md:px-12 bg-[#1F4D3A] text-white">
+       <div className="max-w-7xl mx-auto">
+         <div className="text-center mb-16">
+           <h2 className="font-heading text-4xl md:text-5xl mb-4">Where We Build</h2>
+           <div className="w-24 h-0.5 bg-[#D4B473] mx-auto"></div>
+         </div>
+
+
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+           {/* Memphis Card */}
+           <div className="relative group p-8 border border-white/10 hover:border-[#D4B473] transition-colors duration-300">
+             <div className="absolute top-0 right-0 p-4 opacity-10">
+                <MapPin size={100} />
+             </div>
+             <h3 className="font-stats text-6xl mb-4 text-[#D4B473]">MEMPHIS</h3>
+             <p className="font-heading text-2xl mb-6 italic">"Soul and Structure"</p>
+             <p className="font-body text-gray-300 mb-8 leading-relaxed">
+               Our home base. We focus on revitalizing historic corridors and infill projects that respect the architectural heritage of the mid-south while introducing modern efficiencies.
+             </p>
+             <ul className="text-sm text-gray-400 space-y-2 mb-8 font-body uppercase tracking-wide">
+               <li>• Midtown Infill</li>
+               <li>• Historic Renovations</li>
+               <li>• Affordable luxury units</li>
+             </ul>
+             <button className="text-white border-b border-[#D4B473] pb-1 hover:text-[#D4B473] transition-colors">Explore Memphis Map</button>
+           </div>
+
+
+           {/* Atlanta Card */}
+           <div className="relative group p-8 border border-white/10 hover:border-[#D4B473] transition-colors duration-300">
+             <div className="absolute top-0 right-0 p-4 opacity-10">
+                <Layers size={100} />
+             </div>
+             <h3 className="font-stats text-6xl mb-4 text-[#D4B473]">ATLANTA</h3>
+             <p className="font-heading text-2xl mb-6 italic">"Growth and Greenery"</p>
+             <p className="font-body text-gray-300 mb-8 leading-relaxed">
+               Expanding our footprint into the trees. Focusing on sustainable, density-conscious developments that fit the 'City in a Forest' ethos.
+             </p>
+             <ul className="text-sm text-gray-400 space-y-2 mb-8 font-body uppercase tracking-wide">
+               <li>• Beltline Adjacent</li>
+               <li>• Modern Townhomes</li>
+               <li>• Sustainable Materials</li>
+             </ul>
+             <button className="text-white border-b border-[#D4B473] pb-1 hover:text-[#D4B473] transition-colors">Explore Atlanta Map</button>
+           </div>
+         </div>
+       </div>
+     </section>
+
+
+     {/* 5. ABOUT / PHILOSOPHY (Light) */}
+     <section id="about" className="py-24 px-6 md:px-12 bg-white">
+       <div className="max-w-4xl mx-auto text-center">
+         <Home className="w-12 h-12 text-[#1F4D3A] mx-auto mb-6" />
+         <h2 className="font-heading text-4xl md:text-5xl text-[#1F4D3A] mb-8">Built for the Long View</h2>
+         <p className="font-body text-[#1F1F1F] text-xl leading-relaxed mb-12">
+           "We believe that luxury isn't about excess; it's about intentionality. HAVN Living exists to bridge the gap between custom architectural homes and builder-grade developments. We bring taste, texture, and thought to every square foot."
+         </p>
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-gray-200 pt-12">
+            <div>
+              <h4 className="font-stats text-2xl text-[#1F4D3A] mb-2">Intentional</h4>
+              <p className="font-body text-sm text-[#8A8A8A]">Every window placement and material choice serves a purpose.</p>
+            </div>
+            <div>
+              <h4 className="font-stats text-2xl text-[#1F4D3A] mb-2">Sustainable</h4>
+              <p className="font-body text-sm text-[#8A8A8A]">Smart home features and efficient envelopes reduce long-term costs.</p>
+            </div>
+            <div>
+              <h4 className="font-stats text-2xl text-[#1F4D3A] mb-2">Accessible</h4>
+              <p className="font-body text-sm text-[#8A8A8A]">High design shouldn't be reserved for the ultra-wealthy.</p>
+            </div>
+         </div>
+       </div>
+     </section>
+
+
+     {/* 6. CONTACT */}
+     <section id="contact" className="py-24 px-6 md:px-12 bg-[#F7F7F2]">
+       <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 shadow-sm border-t-4 border-[#1F4D3A]">
+         <div className="text-center mb-10">
+           <h2 className="font-heading text-4xl text-[#1F4D3A] mb-4">Start the Conversation</h2>
+           <p className="font-body text-[#8A8A8A]">Interested in a HAVN home or partnership? Reach out.</p>
+         </div>
+        
+         <form className="space-y-6">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div>
+               <label className="block font-stats text-[#1F4D3A] mb-2 tracking-wide">Name</label>
+               <input type="text" className="w-full bg-[#F7F7F2] border-0 p-4 focus:ring-1 focus:ring-[#D4B473] outline-none transition-all" placeholder="Jane Doe" />
+             </div>
+             <div>
+               <label className="block font-stats text-[#1F4D3A] mb-2 tracking-wide">Email</label>
+               <input type="email" className="w-full bg-[#F7F7F2] border-0 p-4 focus:ring-1 focus:ring-[#D4B473] outline-none transition-all" placeholder="jane@example.com" />
+             </div>
+           </div>
+          
+           <div>
+             <label className="block font-stats text-[#1F4D3A] mb-2 tracking-wide">Interest</label>
+             <select className="w-full bg-[#F7F7F2] border-0 p-4 focus:ring-1 focus:ring-[#D4B473] outline-none text-[#8A8A8A]">
+               <option>Buying a Home</option>
+               <option>Investment Opportunity</option>
+               <option>General Inquiry</option>
+             </select>
+           </div>
+
+
+           <div>
+             <label className="block font-stats text-[#1F4D3A] mb-2 tracking-wide">Message</label>
+             <textarea rows="4" className="w-full bg-[#F7F7F2] border-0 p-4 focus:ring-1 focus:ring-[#D4B473] outline-none transition-all" placeholder="Tell us about your needs..."></textarea>
+           </div>
+
+
+           <button className="w-full bg-[#1F4D3A] text-white font-bold uppercase tracking-widest py-4 hover:bg-black transition-colors flex justify-center items-center gap-2">
+             Send Message <Mail className="w-4 h-4" />
+           </button>
+         </form>
+       </div>
+     </section>
+
+
+     {/* FOOTER */}
+     <footer className="bg-[#1F1F1F] text-white py-16 px-6 border-t border-[#1F4D3A]">
+       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+        
+         <div className="col-span-1 md:col-span-2">
+           <span className="font-stats text-3xl tracking-widest block mb-6">HAVN LIVING</span>
+           <p className="font-body text-[#8A8A8A] max-w-sm mb-6">
+             Affordable luxury. Built with intention. <br/>
+             Developing the future of Memphis and Atlanta.
+           </p>
+           <div className="flex space-x-4">
+             <a href="#" className="text-white hover:text-[#D4B473] transition-colors"><Instagram /></a>
+             <a href="#" className="text-white hover:text-[#D4B473] transition-colors"><Linkedin /></a>
+           </div>
+         </div>
+
+
+         <div>
+           <h4 className="font-stats text-[#D4B473] text-xl mb-6">Sitemap</h4>
+           <ul className="space-y-3 font-body text-sm text-gray-400">
+             <li><a href="#the-standard" className="hover:text-white transition-colors">The Standard</a></li>
+             <li><a href="#projects" className="hover:text-white transition-colors">Projects</a></li>
+             <li><a href="#neighborhoods" className="hover:text-white transition-colors">Neighborhoods</a></li>
+             <li><a href="#about" className="hover:text-white transition-colors">Philosophy</a></li>
+           </ul>
+         </div>
+
+
+         <div>
+           <h4 className="font-stats text-[#D4B473] text-xl mb-6">Contact</h4>
+           <ul className="space-y-3 font-body text-sm text-gray-400">
+             <li>info@havnliving.com</li>
+             <li>Memphis, TN</li>
+             <li>Atlanta, GA</li>
+           </ul>
+         </div>
+
+
+       </div>
+       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 text-center md:text-left flex flex-col md:flex-row justify-between text-[#8A8A8A] text-xs font-body">
+         <p>&copy; {new Date().getFullYear()} HAVN Living. All rights reserved.</p>
+         <p>Designed with Intention.</p>
+       </div>
+     </footer>
+   </div>
+ );
+};
+
+
+export default App;
